@@ -97,7 +97,7 @@ const ImagePriceDescription = function(props) {
       <div className="content">
         <Heading
           title={props.meal.name}
-          subtitle={`£${props.meal.price}`}
+          subtitle={`£${props.meal.price.toFixed(2)}`}
         />
 
         <p className="is-size-5">
