@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { get } from 'axios';
 
 import Meal from '../components/Meal';
 
-import { withMenu } from '../providers/menu';
+export default class extends React.Component {
+  state = {
+    meals: [],
+    error: {
+      hasError: false,
+      message: null,
+    },
+  };
 
-export default function(props) {
-  return withMenu(function(req) {
-    const [data, setData] = useState(null);
+  componentDidMount() {
+    get("https://api-oaxaca-com.wsantos.net/menu/")
+      .then(resp => {
+        this.setState({
+          meals: resp.data,
+        });
+      })
+      .catch(err => {
+        this.setState({
+          error: {
+            hasError: true,
+            message: err,
+          }
+        });
+      });
+  }
 
-    req.then((resp) => setData(resp.data));
-
-    if (!data) {
+  render() {
+    if (!this.state.meals) {
       return (
         <div className="content has-text-centered">
           <p className="is-size-4">
@@ -18,14 +38,20 @@ export default function(props) {
           </p>
         </div>
       )
+    } else if (this.state.error.hasError) {
+      return (
+        <div class="notification is-danger">
+          Unable to load menu. Please try again later.
+        </div>
+      );
     } else {
       return (
         <ul>
-          {data.map((meal, i) => (
+          {this.state.meals.map((meal, i) => (
             <Meal key={i} index={i} data={meal} />
           ))}
         </ul>
       )
     }
-  })();
+  }
 }

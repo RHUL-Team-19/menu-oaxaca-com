@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Separator from './Separator';
-
 export default function(props) {
   return (
     <div>
-      <Separator />
+      <div className="content has-text-centered">
+        <p className="is-size-5">~</p>
+      </div>
 
       <footer className="footer">
         <div className="container">
@@ -17,6 +17,9 @@ export default function(props) {
             </div>
 
             <div className="column">
+              <p className="is-size-3 has-text-grey-light has-text-right">
+                Oaxaca
+              </p>
             </div>
           </div>
         </div>

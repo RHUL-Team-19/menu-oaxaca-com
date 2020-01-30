@@ -1,21 +1,82 @@
 import React from 'react';
 
 import Heading from '../../../components/Heading';
+import Separator from '../../../components/Separator';
 
-const NutritionalFlag = function(props) {
-  if (props.value) {
+const NutritionalBoolean = function(props) {
+  if (props.state === true) {
     return (
-      <span class="tag is-danger">
-        Yes
-      </span>
+      <span className="tag is-success">Yes</span>
     );
   } else {
     return (
-      <span class="tag is-success">
-        No
-      </span>
+      <span className="tag is-danger">Yes</span>
     );
   }
+}
+
+const NutritionTable = function(props) {
+  return (
+    <div>
+      <p className="is-size-4">
+        Nutritional information
+      </p>
+
+      <table className="table is-fullwidth">
+        <tbody>
+          <tr>
+            <th>Is vegan</th>
+            <th><NutritionalBoolean state={props.meal.is_vegan} /></th>
+          </tr>
+
+          <tr>
+            <th>Is vegetarian</th>
+            <th><NutritionalBoolean state={props.meal.is_vegetarian} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains egg</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_egg} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains soy</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_soy} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains fish</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_fish} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains lactose</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_lactose} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains wheat</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_wheat} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains nuts</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_nuts} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains gluten</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_gluten} /></th>
+          </tr>
+
+          <tr>
+            <th>Contains dairy</th>
+            <th><NutritionalBoolean state={props.meal.does_contain_dairy} /></th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 const Image = function(props) {
@@ -29,70 +90,24 @@ const Image = function(props) {
   );
 }
 
-const Description = function(props) {
+const ImagePriceDescription = function(props) {
   return (
-    <div className="content">
-      <Heading
-        title={props.name}
-        subtitle={`£${props.price}`}
+    <div>
+      <Image
+        url={props.meal.image_url}
+        description={props.meal.description}
       />
 
-      <p>
-        {props.description}
-      </p>
+      <div className="content">
+        <Heading
+          title={props.meal.name}
+          subtitle={`£${props.meal.price}`}
+        />
 
-      <b>Nutritional information:</b>
-      <ul>
-        <li>
-          <b>Is vegan:</b>
-          <NutritionalFlag value={props.vegan} />
-        </li>
-
-        <li>
-          <b>Is Vegetarian:</b>
-          <NutritionalFlag value={props.vegetarian} />
-        </li>
-
-        <li>
-          <b>Contains egg:</b>
-          <NutritionalFlag value={props.egg} />
-        </li>
-
-        <li>
-          <b>Contains soy:</b>
-          <NutritionalFlag value={props.soy} />
-        </li>
-
-        <li>
-          <b>Contains fish:</b>
-          <NutritionalFlag value={props.fish} />
-        </li>
-
-        <li>
-          <b>Contains lactose:</b>
-          <NutritionalFlag value={props.lactose} />
-        </li>
-
-        <li>
-          <b>Contains wheat:</b>
-          <NutritionalFlag value={props.wheat} />
-        </li>
-
-        <li>
-          <b>Contains nuts:</b>
-          <NutritionalFlag value={props.nuts} />
-        </li>
-
-        <li>
-          <b>Contains gluten:</b>
-          <NutritionalFlag value={props.gluten} />
-        </li>
-
-        <li>
-          <b>Contains dairy:</b>
-          <NutritionalFlag value={props.dairy} />
-        </li>
-      </ul>
+        <p className="is-size-5">
+          {props.meal.description}
+        </p>
+      </div>
     </div>
   );
 }
@@ -100,40 +115,33 @@ const Description = function(props) {
 export default function(props) {
   if (props.index % 2 === 0) {
     return (
-      <div className="columns is-vcentered">
-        <div className="column">
-          <Image
-            url={props.data.image_url}
-            description={props.data.description}
-          />
+      <div>
+        <div className="columns is-vcentered">
+          <div className="column is-hidden-mobile">
+            <ImagePriceDescription meal={props.data} />
+          </div>
+
+          <div className="column is-three-fifths">
+            <NutritionTable meal={props.data} />
+          </div>
         </div>
 
-        <div className="column">
-          <Description
-            name={props.data.name}
-            price={props.data.price}
-            description={props.data.description}
-          />
-        </div>
+        <Separator />
       </div>
     );
   } else {
     return (
-      <div className="columns is-vcentered">
-        <div className="column">
-          <Description
-            name={props.data.name}
-            price={props.data.price}
-            description={props.data.description}
-          />
-        </div>
+      <div>
+        <div className="columns is-vcentered">
+          <div className="column is-three-fifths">
+            <NutritionTable meal={props.data} />
+          </div>
 
-        <div className="column">
-          <Image
-            url={props.data.image_url}
-            description={props.data.description}
-          />
+          <div className="column is-hidden-mobile">
+            <ImagePriceDescription meal={props.data} />
+          </div>
         </div>
+        <Separator />
       </div>
     );
   }
