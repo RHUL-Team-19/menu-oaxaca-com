@@ -4,15 +4,11 @@ import Heading from '../../../components/Heading';
 import Separator from '../../../components/Separator';
 
 const NutritionalBoolean = function(props) {
-  if (props.state === true) {
-    return (
-      <span className="tag is-success">Yes</span>
-    );
-  } else {
-    return (
-      <span className="tag is-danger">Yes</span>
-    );
-  }
+  return (
+    <span className={`tag is-${props.state ? 'success' : 'danger'}`}>
+      {props.state ? 'Yes' : 'No'}
+    </span>
+  );
 }
 
 const NutritionTable = function(props) {
