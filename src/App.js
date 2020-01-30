@@ -20,7 +20,7 @@ function App() {
           <NavBar />
           <Switch>
             {modules.map(module => (
-              <Route path={module.path} component={module.component} />
+              <Route key={module.path} path={module.path} component={module.component} />
             ))}
           </Switch>
         </div>
